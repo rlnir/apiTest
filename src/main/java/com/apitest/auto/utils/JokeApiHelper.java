@@ -1,36 +1,47 @@
 package com.apitest.auto.utils;
 
-import com.apitest.auto.modelobjects.Joke;
+import com.apitest.auto.modelobjects.JokeGson;
+import com.apitest.auto.modelobjects.JokeResponse;
+import kong.unirest.Headers;
+import kong.unirest.HttpResponse;
 import kong.unirest.Unirest;
 
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * wrapper for dad joke api
+ */
+
 public class JokeApiHelper {
 
-    public static Joke getRandomJoke() {
-        return getJokeAs(Joke.class, "");
+    public static JokeResponse getRandomJoke() {
+        return getJokeAs(JokeGson.class, "");
     }
 
-    public static Joke getJoke(String id) {
-        return getJokeAs(Joke.class, "/j/" + id);
+    public static JokeResponse getJoke(String id) {
+        return getJokeAs(JokeGson.class, "/j/" + id);
     }
 
-    public static String getJokeString(String id) {
+    public static JokeResponse getJokeString(String id) {
         return getJokeAsString("/j/" + id);
     }
 
-    public static String getRandomJokeString() {
+    public static JokeResponse getRandomJokeString() {
         return getJokeAsString("");
     }
 
-    public static <T> T getJokeAs(Class<T> cls, String id) {
+    // get Joke response with Object of Generic type (JokeGson, (JokeJackson-not implemented))
+    private static <T> JokeResponse getJokeAs(Class<T> cls, String id) {
         try {
-            T joke = Unirest.get(ProjectTestProps.getBaseUrl() + id)
+            HttpResponse<T> httpResponse = Unirest.get(ProjectTestProps.getBaseUrl() + id)
                     .headers(getHeadersFor("JSON"))
-                    .asObject(cls)
-                    .getBody();
-            return joke;
+                    .asObject(cls);
+            Headers headers = httpResponse.getHeaders();
+            int status = httpResponse.getStatus();
+            String statusText = httpResponse.getStatusText();
+            T joke = httpResponse.getBody();
+            return new JokeResponse(joke, status, statusText, headers);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -38,12 +49,17 @@ public class JokeApiHelper {
         return null;
     }
 
-    public static String getJokeAsString(String id) {
+    // get joke response with String
+    private static JokeResponse getJokeAsString(String id) {
         try {
-            return Unirest.get(ProjectTestProps.getBaseUrl() + id)
+            HttpResponse<String> httpResponse = Unirest.get(ProjectTestProps.getBaseUrl() + id)
                     .headers(getHeadersFor("String"))
-                    .asString()
-                    .getBody();
+                    .asString();
+            Headers headers = httpResponse.getHeaders();
+            int status = httpResponse.getStatus();
+            String statusText = httpResponse.getStatusText();
+            String joke = httpResponse.getBody();
+            return new JokeResponse(joke, status, statusText, headers);
         } catch (Exception e) {
             e.printStackTrace();
         }
