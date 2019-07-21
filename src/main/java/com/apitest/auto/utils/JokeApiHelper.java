@@ -2,6 +2,7 @@ package com.apitest.auto.utils;
 
 import com.apitest.auto.modelobjects.JokeGson;
 import com.apitest.auto.modelobjects.JokeResponse;
+import io.qameta.allure.Step;
 import kong.unirest.Headers;
 import kong.unirest.HttpResponse;
 import kong.unirest.Unirest;
@@ -15,18 +16,22 @@ import java.util.Map;
 
 public class JokeApiHelper {
 
+    @Step
     public static JokeResponse getRandomJoke() {
         return getJokeAs(JokeGson.class, "");
     }
 
+    @Step
     public static JokeResponse getJoke(String id) {
         return getJokeAs(JokeGson.class, "/j/" + id);
     }
 
+    @Step
     public static JokeResponse getJokeString(String id) {
         return getJokeAsString("/j/" + id);
     }
 
+    @Step()
     public static JokeResponse getRandomJokeString() {
         return getJokeAsString("");
     }

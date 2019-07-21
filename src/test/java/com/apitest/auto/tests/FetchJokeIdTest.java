@@ -7,6 +7,13 @@ import com.apitest.auto.utils.JokeApiHelper;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
+/**
+ *  test joke api for json and string response with id
+ *
+ *  GET https://icanhazdadjoke.com/j/<joke_id>
+ *
+ */
+
 public class FetchJokeIdTest extends BaseTest {
 
     private JokeResponse jokeId;
@@ -42,20 +49,20 @@ public class FetchJokeIdTest extends BaseTest {
     @Test(dependsOnMethods = "fetchJokeTest")
     public void jokeTextTest() {
         JokeGson joke = (JokeGson) jokeId.getJoke();
-        Assert.assertTrue(joke.getJoke().length() > 0);
+        Assert.assertTrue(joke.getJoke().length() > 0, "no text in joke response");
     }
 
     // validate text is present (string api joke)
     @Test(dependsOnMethods = "fetchJokeTest")
     public void jokeStringTextTest() {
-        Assert.assertTrue(((String)jokeIdString.getJoke()).length() > 0);
+        Assert.assertTrue(((String)jokeIdString.getJoke()).length() > 0, "no text in joke response");
     }
 
     // validate joke id
     @Test(dependsOnMethods = "fetchJokeTest")
     public void jokeIdTest() {
         JokeGson joke = (JokeGson) jokeId.getJoke();
-        Assert.assertTrue(joke.getId().length() > 9);
+        Assert.assertTrue(joke.getId().length() > 9, "joke id length is invalid");
 
     }
 

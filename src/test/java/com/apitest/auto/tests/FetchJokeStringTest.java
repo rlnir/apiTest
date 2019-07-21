@@ -7,6 +7,13 @@ import com.apitest.auto.utils.JokeApiHelper;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
+/**
+ *  test random joke api for string response
+ *
+ *  GET https://icanhazdadjoke.com/
+ *
+ */
+
 public class FetchJokeStringTest extends BaseTest {
 
     private JokeResponse randomJoke;
@@ -27,7 +34,7 @@ public class FetchJokeStringTest extends BaseTest {
     @Test(dependsOnMethods = "fetchJokeTest")
     public void jokeTextTest() {
         String joke = (String) randomJoke.getJoke();
-        Assert.assertTrue(joke.length() > 0);
+        Assert.assertTrue(joke.length() > 0, "no text in joke response");
     }
 
 
