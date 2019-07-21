@@ -5,7 +5,7 @@
 2. import to IDE as Maven project.
 
 ## Running Tests
-1. find sanity.xml file in root.
+1. find suite.xml file in root.
 2. run file as TestNG suite (usually right click on file -> run).
 
 ## Create Report
