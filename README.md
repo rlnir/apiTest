@@ -10,7 +10,7 @@
 
 ## Create Report
 1. install Allure commandline application: [instructions](https://docs.qameta.io/allure/#_get_started).
-2. make sure that you have run the tests at list once.
+2. make sure that you have run the tests at least once.
 2. go to the root path of the project.
 3. type and execute (in power shell or bash):
 ```
